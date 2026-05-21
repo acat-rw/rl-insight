@@ -12,48 +12,48 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from omegaconf import DictConfig
+
 from rl_insight.data import DataChecker, DataEnum
 from rl_insight.parser import get_cluster_parser_cls
-from rl_insight.utils.schema import Constant
 from rl_insight.visualizer import get_cluster_visualizer_cls
 
 
 class OfflineInsightPipeline:
-    def __init__(self, config):
+    def __init__(self, config: DictConfig):
         self.config = config
 
-        # init data
-        self.input_data_type = DataEnum(self.config.input_type)
+        self.input_data_type = DataEnum(self.config.input.input_type)
 
-        # parser related
         parser_config = self._prepare_parser_config()
-        parser_cls = get_cluster_parser_cls(self.config.profiler_type)
+        parser_cls = get_cluster_parser_cls(self.config.input.profiler_type)
         self.parser = parser_cls(parser_config)
 
-        # visualizer related
         visualizer_config = self._prepare_visualizer_config()
-        visualizer_cls = get_cluster_visualizer_cls(self.config.vis_type)
+        visualizer_cls = get_cluster_visualizer_cls(
+            self.config.timeline.visualizer.vis_type
+            if self.config.input.profiler_type != "gmm"
+            else self.config.gmm.visualizer.vis_type
+        )
         self.visualizer = visualizer_cls(visualizer_config)
 
-    def _prepare_parser_config(self):
-        config = vars(self.config).copy()
-        config[Constant.RANK_LIST] = config.get("rank_list", "all")
-        return config
+    def _prepare_parser_config(self) -> DictConfig:
+        return self.config
 
-    def _prepare_visualizer_config(self):
-        return vars(self.config).copy()
+    def _prepare_visualizer_config(self) -> DictConfig:
+        return self.config
 
     def run(self):
         if self.input_data_type != self.parser.input_type:
             raise ValueError(
-                f"Input data type {self.input_data_type} does not match parser input type {self.parser.input_type}"
+                f"Input data type {self.input_data_type} does not match "
+                f"parser input type {self.parser.input_type}"
             )
-        # validate input data
-        DataChecker(self.input_data_type, self.config.input_path).run()
 
-        output_data = self.parser.run(self.config.input_path)
+        DataChecker(self.input_data_type, self.config.input.input_path).run()
 
-        # validate output data
+        output_data = self.parser.run(self.config.input.input_path)
+
         DataChecker(self.visualizer.input_type, output_data).run()
 
         self.visualizer.run(output_data)

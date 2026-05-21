@@ -4,7 +4,6 @@ set -euo pipefail
 
 NVTX_PROFILER_DATA_PATH="${NVTX_PROFILER_DATA_PATH:-}"
 OUTPUT_PATH="${OUTPUT_PATH:-./output}"
-PROFILER_TYPE="${PROFILER_TYPE:-nvtx}"
 VIS_TYPE="${VIS_TYPE:-html}"
 RANK_LIST="${RANK_LIST:-all}"
 
@@ -13,17 +12,17 @@ echo "Nvtx Profiler Cluster Analysis"
 echo "=========================================="
 echo "Input Path:    ${NVTX_PROFILER_DATA_PATH}"
 echo "Output Path:   ${OUTPUT_PATH}"
-echo "Profiler Type: ${PROFILER_TYPE}"
 echo "Vis Type:      ${VIS_TYPE}"
 echo "Rank List:     ${RANK_LIST}"
 echo "=========================================="
 
 python -m rl_insight.main \
-    --input-path "${NVTX_PROFILER_DATA_PATH}" \
-    --profiler-type "${PROFILER_TYPE}" \
-    --output-path "${OUTPUT_PATH}" \
-    --vis-type "${VIS_TYPE}" \
-    --rank-list "${RANK_LIST}"
+    input.input_path="${NVTX_PROFILER_DATA_PATH}" \
+    input.profiler_type=nvtx \
+    input.input_type=multi_json_nvtx \
+    input.rank_list="${RANK_LIST}" \
+    output.output_path="${OUTPUT_PATH}" \
+    timeline.visualizer.vis_type="${VIS_TYPE}" 
 
 echo "=========================================="
 echo ">>> Analysis completed successfully!"

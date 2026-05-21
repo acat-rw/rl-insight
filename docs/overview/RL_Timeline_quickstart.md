@@ -56,9 +56,10 @@ pip install -e .
 
 ```bash
 python -m rl_insight.main \
-   --input-path <profiling_data_path> \
-   --profiler-type mstx \
-   --output-path <output_path>
+   input.input_path=<profiling_data_path> \
+   input.profiler_type=mstx \
+   input.input_type=multi_json_nvtx \
+   output.output_path=<output_path>
 ```
 
 或修改并直接使用 `examples/mstx_exec.sh` 脚本:
@@ -73,9 +74,10 @@ bash examples/mstx_exec.sh
 
 ```bash
 python -m rl_insight.main \
-    --input-path <torch_profiling_data_path> \
-    --profiler-type torch \
-    --output-path <output_path>
+    input.input_path=<torch_profiling_data_path> \
+    input.profiler_type=torch \
+    input.input_type=multi_json_torch \
+    output.output_path=<output_path>
 ```
 
 或修改并直接使用 `examples/torch_profiler_exec.sh` 脚本:
@@ -90,9 +92,10 @@ bash examples/torch_profiler_exec.sh
 
 ```bash
 python -m rl_insight.main \
-    --input-path <nvtx_profiling_data_path> \
-    --profiler-type nvtx \
-    --output-path <output_path>
+    input.input_path=<nvtx_profiling_data_path> \
+    input.profiler_type=nvtx \
+    input.input_type=multi_json_nvtx \
+    output.output_path=<output_path>
 ```
 
 或修改并直接使用 `examples/nvtx_exec.sh` 脚本:
@@ -103,17 +106,27 @@ bash examples/nvtx_exec.sh
 
 ## 4. 命令行参数
 
-以下说明与 `python -m rl_insight.main --help` 保持一致；若有出入以命令行帮助为准。
+以下说明与 `python -m rl_insight.main -h` 保持一致；若有出入以命令行帮助为准。
+
+### 4.1 公共参数
 
 | 参数 | 默认值 | 说明 |
-|------|--------|----|
-| `--input-path` | （必填，无默认值） | Profiling 数据的根目录路径 |
-| `--input-type` | `multi_json` | 输入数据类型（多目录 JSON 布局等）|
-| `--profiler-type` | `mstx` | 性能数据种类：`mstx`、`torch`、`nvtx` |
-| `--output-path` | `output` | 输出目录 |
-| `--vis-type` | `html` | 可视化类型（当前支持 `html`、`png`） |
-| `--rank-list` | `all` | Rank ID 列表（当前仅支持 `all`） |
-| `--pipeline-type` | `OfflineInsightPipeline` | 流水线实现类型 |
+|------|--------|------|
+| `input.input_path` | （必填） | Profiling 数据的根目录路径 |
+| `input.input_type` | `multi_json_mstx` | 输入数据类型（`multi_json_mstx`、`multi_json_torch`、`multi_json_nvtx`）|
+| `input.profiler_type` | `mstx` | 性能数据种类：`mstx`、`torch`、`nvtx` |
+| `input.rank_list` | `all` | Rank ID 列表，如 `0,1,2` 或 `all` |
+| `output.output_path` | `output` | 输出目录 |
+| `preset` | 自动推断 | 预设名称：`timeline`、`gmm`（根据 `profiler_type` 自动推断） |
+| `config_path` | 无 | YAML 配置文件路径 |
+
+### 4.2 Timeline 参数
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `timeline.visualizer.vis_type` | `html` | 可视化类型：`html`、`png` |
+| `timeline.visualizer.width` | `2000` | 图片宽度（仅 png） |
+| `timeline.visualizer.scale` | `2` | 图片缩放因子（仅 png） |
 
 ## 5. 输出说明
 
@@ -145,7 +158,7 @@ bash examples/nvtx_exec.sh
 
 ## 6. 注意事项
 
-1. RL 分析功能当前仅支持处理所有 Rank（`--rank-list` 参数暂不支持过滤功能）
+1. RL 分析功能当前仅支持处理所有 Rank（`input.rank_list` 参数暂不支持过滤功能）
 2. 至少采集 level0 及以上数据（不支持 level_none 级数据）
 3. 采用离散模式采集 `discrete=True`
 4. MSTX 数据满足以下要求：

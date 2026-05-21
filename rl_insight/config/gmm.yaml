@@ -1,0 +1,22 @@
+# GMM visualization preset
+
+pipeline:
+  pipeline_type: OfflineInsightPipeline  # OfflineInsightPipeline
+
+input:
+  input_type: gmm_data         # gmm_data
+  profiler_type: gmm           # gmm
+  rank_list: all               # Rank id list, e.g. '0,1,2' or 'all'
+
+output:
+  output_path: output          # Output directory path
+
+gmm:
+  parser:
+    step: null                 # Step filter, e.g. '1' or '1,2'
+    role: null                 # Role filter
+  visualizer:
+    vis_type: gmm_heatmap      # gmm_heatmap
+    dpi: 200                   # DPI for heatmap PNG output
+    cmap: viridis              # Matplotlib colormap name
+    gmm_per_layer: 3           # Grouped matmul count per MoE layer

@@ -29,13 +29,12 @@ def test_torch_e2e_with_input_path(monkeypatch, tmp_path):
     # Ensure the input directory exists
     assert input_dir.exists(), f"Input directory {input_dir} does not exist"
 
-    # Set command line parameters
     test_args = [
         "main.py",
-        f"--input-path={input_dir}",
-        f"--output-path={output_dir}",
-        "--profiler-type=torch",
-        "--input-type=multi_json_torch",
+        f"input.input_path={input_dir}",
+        f"output.output_path={output_dir}",
+        "input.profiler_type=torch",
+        "input.input_type=multi_json_torch",
     ]
     monkeypatch.setattr(sys, "argv", test_args)
 
