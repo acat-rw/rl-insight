@@ -25,12 +25,11 @@ python -m rl_insight.utils.mstx_preprocessing "${MSTX_PROFILER_DATA_PATH}"
 echo ">>> Mstx data preprocessing completed."
 
 python -m rl_insight.main \
-    input.input_path="${MSTX_PROFILER_DATA_PATH}" \
-    input.profiler_type=mstx \
-    input.input_type=multi_json_mstx \
-    input.rank_list="${RANK_LIST}" 
-    output.output_path="${OUTPUT_PATH}" \
-    timeline.visualizer.vis_type="${VIS_TYPE}"
+    input.path="${MSTX_PROFILER_DATA_PATH}" \
+    timeline.parser.type=mstx \
+    input.rank_list="${RANK_LIST}" \
+    output.path="${OUTPUT_PATH}" \
+    timeline.visualizer.type="${VIS_TYPE}"
 
 echo "=========================================="
 echo ">>> Analysis completed successfully!"

@@ -60,11 +60,11 @@ class _HelpRenderer:
         return (
             "\n"
             "Examples:\n"
-            "  python -m rl_insight.main input.input_path=./data/mstx_data/mstx_profile\n"
-            "  python -m rl_insight.main input.input_path=./data/gmm_data input.profiler_type=gmm\n"
-            "  python -m rl_insight.main config_path=my_config.yaml gmm.visualizer.dpi=300\n"
-            "  python -m rl_insight.main preset=timeline timeline.visualizer.vis_type=png\n"
-            "  python -m rl_insight.main preset=gmm input.input_path=./data/gmm_data\n"
+            "  python -m rl_insight.main input.path=./data/mstx_data/mstx_profile\n"
+            "  python -m rl_insight.main preset=heatmap input.path=./data/gmm_data\n"
+            "  python -m rl_insight.main config_path=my_config.yaml heatmap.visualizer.dpi=300\n"
+            "  python -m rl_insight.main preset=timeline timeline.visualizer.type=png\n"
+            "  python -m rl_insight.main preset=timeline timeline.parser.type=torch\n"
         )
 
     @staticmethod
@@ -118,7 +118,7 @@ class _HelpRenderer:
 
 class ConfigLoader:
     PRESETS_DIR = Path(__file__).parent
-    SUPPORTED_PRESETS = {"timeline", "gmm"}
+    SUPPORTED_PRESETS = {"timeline", "heatmap"}
 
     @classmethod
     def load(
@@ -219,7 +219,6 @@ class ConfigLoader:
     @staticmethod
     def _infer_preset_from_args(args: list[str]) -> Optional[str]:
         for arg in args:
-            if arg.startswith("input.profiler_type="):
-                profiler_type = arg.split("=", 1)[1]
-                return "gmm" if profiler_type == "gmm" else "timeline"
+            if arg.startswith("heatmap."):
+                return "heatmap"
         return None

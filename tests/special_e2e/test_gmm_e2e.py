@@ -34,11 +34,9 @@ def test_gmm_e2e_with_repo_sample_data(monkeypatch, tmp_path):
 
     test_args = [
         "main.py",
-        f"input.input_path={input_dir}",
-        f"output.output_path={output_dir}",
-        "input.profiler_type=gmm",
-        "input.input_type=gmm_data",
-        "gmm.visualizer.vis_type=gmm_heatmap",
+        f"input.path={input_dir}",
+        f"output.path={output_dir}",
+        "heatmap.visualizer.type=gmm_heatmap",
     ]
     monkeypatch.setattr(sys, "argv", test_args)
 

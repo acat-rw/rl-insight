@@ -14,7 +14,7 @@
 
 from omegaconf import DictConfig
 
-from rl_insight.data import DataChecker, DataEnum
+from rl_insight.data import DataChecker
 from rl_insight.parser import get_cluster_parser_cls
 from rl_insight.visualizer import get_cluster_visualizer_cls
 
@@ -23,18 +23,18 @@ class OfflineInsightPipeline:
     def __init__(self, config: DictConfig):
         self.config = config
 
-        self.input_data_type = DataEnum(self.config.input.input_type)
+        timeline_parser_type = config.timeline.parser.type
+        if timeline_parser_type is not None:
+            parser_cls = get_cluster_parser_cls(timeline_parser_type)
+            visualizer_cls = get_cluster_visualizer_cls(config.timeline.visualizer.type)
+        else:
+            parser_cls = get_cluster_parser_cls(config.heatmap.parser.type)
+            visualizer_cls = get_cluster_visualizer_cls(config.heatmap.visualizer.type)
 
         parser_config = self._prepare_parser_config()
-        parser_cls = get_cluster_parser_cls(self.config.input.profiler_type)
         self.parser = parser_cls(parser_config)
 
         visualizer_config = self._prepare_visualizer_config()
-        visualizer_cls = get_cluster_visualizer_cls(
-            self.config.timeline.visualizer.vis_type
-            if self.config.input.profiler_type != "gmm"
-            else self.config.gmm.visualizer.vis_type
-        )
         self.visualizer = visualizer_cls(visualizer_config)
 
     def _prepare_parser_config(self) -> DictConfig:
@@ -44,15 +44,9 @@ class OfflineInsightPipeline:
         return self.config
 
     def run(self):
-        if self.input_data_type != self.parser.input_type:
-            raise ValueError(
-                f"Input data type {self.input_data_type} does not match "
-                f"parser input type {self.parser.input_type}"
-            )
+        DataChecker(self.parser.input_type, self.config.input.path).run()
 
-        DataChecker(self.input_data_type, self.config.input.input_path).run()
-
-        output_data = self.parser.run(self.config.input.input_path)
+        output_data = self.parser.run(self.config.input.path)
 
         DataChecker(self.visualizer.input_type, output_data).run()
 

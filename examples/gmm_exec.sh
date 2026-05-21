@@ -28,29 +28,30 @@ echo "=========================================="
 
 # Build command
 cmd="python -m rl_insight.main \
-    input.input_path=\"${GMM_DATA_PATH}\" \
-    input.input_type=gmm_data \
-    input.profiler_type=gmm \
-    output.output_path=\"${OUTPUT_PATH}\" \
+    input.path=\"${GMM_DATA_PATH}\" \
+    output.path=\"${OUTPUT_PATH}\" \
     input.rank_list=\"${RANK_LIST}\" \
-    gmm.visualizer.vis_type=gmm_heatmap \
-    gmm.visualizer.dpi=\"${DPI}\" \
-    gmm.visualizer.cmap=\"${CMAP}\" \
-    gmm.visualizer.gmm_per_layer=\"${GMM_PER_LAYER}\""
-# Add step and role parameters if specified
+    heatmap.parser.type=gmm \
+    heatmap.visualizer.type=gmm_heatmap \
+    heatmap.visualizer.dpi=\"${DPI}\" \
+    heatmap.visualizer.cmap=\"${CMAP}\" \
+    heatmap.visualizer.gmm_per_layer=\"${GMM_PER_LAYER}\""
+
 if [ -n "${STEP}" ]; then
     cmd="${cmd} \
-    gmm.parser.step=\"${STEP}\""
+    heatmap.parser.step=\"${STEP}\""
 fi
 
 if [ -n "${ROLE}" ]; then
     cmd="${cmd} \
-    gmm.parser.role=\"${ROLE}\""
+    heatmap.parser.role=\"${ROLE}\""
 fi
 
+# Execute the command
 echo ">>> Generating GMM expert load heatmap..."
 eval ${cmd}
 
+# Check if the heatmap was generated successfully
 if [ -f "${OUTPUT_PATH}" ]; then
     echo "=========================================="
     echo ">>> Heatmap generated successfully!"

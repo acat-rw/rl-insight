@@ -22,12 +22,12 @@ def get_config_value(
 ) -> Any:
     """Retrieve a value from a DictConfig or dict using a dot-separated key.
 
-    Supports both nested access (``output.output_path``) and flat key fallback
-    (``output_output_path``) for backward compatibility.
+    Supports both nested access (``output.path``) and flat key fallback
+    (``output_path``) for backward compatibility.
 
     Args:
         config: Configuration object (DictConfig or plain dict).
-        key: Dot-separated key path, e.g. ``"output.output_path"``.
+        key: Dot-separated key path, e.g. ``"output.path"``.
         default: Value returned when the key is not found.
 
     Returns:

@@ -1,19 +1,18 @@
 # Timeline visualization preset
 
 pipeline:
-  pipeline_type: OfflineInsightPipeline  # OfflineInsightPipeline
+  type: OfflineInsightPipeline  # OfflineInsightPipeline
 
 input:
-  input_type: multi_json_mstx  # multi_json_mstx | multi_json_torch | multi_json_nvtx
-  profiler_type: mstx          # mstx | torch | nvtx
   rank_list: all               # Rank id list, e.g. '0,1,2' or 'all'
 
 output:
-  output_path: output          # Output directory path
+  path: output                 # Output directory path
 
 timeline:
-  parser: {}                   # No parser-specific config yet
+  parser:
+    type: mstx                 # mstx | torch | nvtx
   visualizer:
-    vis_type: html             # html | png
+    type: html                 # html | png
     width: 2000                # Image width in pixels (png only)
     scale: 2                   # Image scale factor (png only)

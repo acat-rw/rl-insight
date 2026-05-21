@@ -52,7 +52,7 @@ class RLTimelineVisualizer(BaseVisualizer):
 
     def __init__(self, config: Union[DictConfig, dict]):
         super().__init__(config)
-        self.output_path = get_config_value(config, "output.output_path", None)
+        self.output_path = get_config_value(config, "output.path", None)
 
     def run(self, data):
         return self.generate_rl_timeline(data)
@@ -410,7 +410,7 @@ class RLTimelinePNGVisualizer(BaseVisualizer):
 
     def __init__(self, config: Union[DictConfig, dict]):
         super().__init__(config)
-        self.output_path = get_config_value(config, "output.output_path", None)
+        self.output_path = get_config_value(config, "output.path", None)
         self.width = get_config_value(config, "timeline.visualizer.width", 2000)
         self.scale = get_config_value(config, "timeline.visualizer.scale", 2)
 

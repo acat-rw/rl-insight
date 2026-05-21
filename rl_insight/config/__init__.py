@@ -14,9 +14,9 @@
 
 from .config import (
     AppConfig,
-    GmmConfig,
-    GmmParserConfig,
-    GmmVisualizerConfig,
+    HeatmapConfig,
+    HeatmapParserConfig,
+    HeatmapVisualizerConfig,
     InputConfig,
     OutputConfig,
     PipelineConfig,
@@ -29,9 +29,9 @@ from .utils import get_config_value
 
 __all__ = [
     "AppConfig",
-    "GmmConfig",
-    "GmmParserConfig",
-    "GmmVisualizerConfig",
+    "HeatmapConfig",
+    "HeatmapParserConfig",
+    "HeatmapVisualizerConfig",
     "InputConfig",
     "OutputConfig",
     "PipelineConfig",

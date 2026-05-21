@@ -31,9 +31,9 @@ def test_mstx_e2e_with_input_path(monkeypatch, tmp_path):
 
     test_args = [
         "main.py",
-        f"input.input_path={input_dir}",
-        f"output.output_path={output_dir}",
-        "input.profiler_type=mstx",
+        f"input.path={input_dir}",
+        f"output.path={output_dir}",
+        "timeline.parser.type=mstx",
     ]
     monkeypatch.setattr(sys, "argv", test_args)
 

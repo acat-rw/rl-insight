@@ -56,10 +56,9 @@ pip install -e .
 
 ```bash
 python -m rl_insight.main \
-   input.input_path=<profiling_data_path> \
-   input.profiler_type=mstx \
-   input.input_type=multi_json_nvtx \
-   output.output_path=<output_path>
+   input.path=<profiling_data_path> \
+   timeline.parser.type=mstx \
+   output.path=<output_path>
 ```
 
 或修改并直接使用 `examples/mstx_exec.sh` 脚本:
@@ -74,10 +73,9 @@ bash examples/mstx_exec.sh
 
 ```bash
 python -m rl_insight.main \
-    input.input_path=<torch_profiling_data_path> \
-    input.profiler_type=torch \
-    input.input_type=multi_json_torch \
-    output.output_path=<output_path>
+    input.path=<torch_profiling_data_path> \
+    timeline.parser.type=torch \
+    output.path=<output_path>
 ```
 
 或修改并直接使用 `examples/torch_profiler_exec.sh` 脚本:
@@ -92,10 +90,9 @@ bash examples/torch_profiler_exec.sh
 
 ```bash
 python -m rl_insight.main \
-    input.input_path=<nvtx_profiling_data_path> \
-    input.profiler_type=nvtx \
-    input.input_type=multi_json_nvtx \
-    output.output_path=<output_path>
+    input.path=<nvtx_profiling_data_path> \
+    timeline.parser.type=nvtx \
+    output.path=<output_path>
 ```
 
 或修改并直接使用 `examples/nvtx_exec.sh` 脚本:
@@ -112,19 +109,18 @@ bash examples/nvtx_exec.sh
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
-| `input.input_path` | （必填） | Profiling 数据的根目录路径 |
-| `input.input_type` | `multi_json_mstx` | 输入数据类型（`multi_json_mstx`、`multi_json_torch`、`multi_json_nvtx`）|
-| `input.profiler_type` | `mstx` | 性能数据种类：`mstx`、`torch`、`nvtx` |
+| `input.path` | （必填） | Profiling 数据的根目录路径 |
 | `input.rank_list` | `all` | Rank ID 列表，如 `0,1,2` 或 `all` |
-| `output.output_path` | `output` | 输出目录 |
-| `preset` | 自动推断 | 预设名称：`timeline`、`gmm`（根据 `profiler_type` 自动推断） |
+| `output.path` | `output` | 输出目录 |
+| `preset` | 自动推断 | 预设名称：`timeline`、`heatmap`（根据 CLI 参数自动推断） |
 | `config_path` | 无 | YAML 配置文件路径 |
 
-### 4.2 Timeline 参数
+### 4.2 Timeline 专属参数
 
 | 参数 | 默认值 | 说明 |
 |------|--------|------|
-| `timeline.visualizer.vis_type` | `html` | 可视化类型：`html`、`png` |
+| `timeline.parser.type` | `mstx` | 数据源类型：`mstx`、`torch`、`nvtx` |
+| `timeline.visualizer.type` | `html` | 可视化类型：`html`、`png` |
 | `timeline.visualizer.width` | `2000` | 图片宽度（仅 png） |
 | `timeline.visualizer.scale` | `2` | 图片缩放因子（仅 png） |
 

@@ -36,5 +36,5 @@
 适用于：全新的处理范式（跳过步骤、插入预处理、多产物、在线多进程流程等）。
 
 1. 在 `rl_insight/pipeline/` 新增类，实现 `__init__(self, config)`、`run(self)`，按需组合 `DataChecker`、`get_cluster_parser_cls`、`get_cluster_visualizer_cls` 等。
-2. 在 `rl_insight/config/config.py` 的 `PipelineConfig.pipeline_type` 默认值或 preset YAML 中注册新 pipeline 类型。
+2. 在 `rl_insight/config/config.py` 的 `PipelineConfig.type` 默认值或 preset YAML 中注册新 pipeline 类型。
 3. 若数据解析或数据类型发生变化，同步扩展 **DataRule** / **Parser** / **Visualizer**。

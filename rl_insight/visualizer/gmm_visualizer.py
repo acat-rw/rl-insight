@@ -51,13 +51,13 @@ class GmmVisualizer(BaseVisualizer):
         """Run GMM heatmap visualization from parsed data."""
         # Extract parameters from config
         output_cfg = get_config_value(
-            self.config, "output.output_path", "./output/gmm_group_list_heatmap.png"
+            self.config, "output.path", "./output/gmm_group_list_heatmap.png"
         )
         output = self._resolve_output_path(output_cfg)
-        dpi = get_config_value(self.config, "gmm.visualizer.dpi", 200)
-        cmap = get_config_value(self.config, "gmm.visualizer.cmap", "viridis")
+        dpi = get_config_value(self.config, "heatmap.visualizer.dpi", 200)
+        cmap = get_config_value(self.config, "heatmap.visualizer.cmap", "viridis")
         gmm_per_layer = int(
-            get_config_value(self.config, "gmm.visualizer.gmm_per_layer", 3)
+            get_config_value(self.config, "heatmap.visualizer.gmm_per_layer", 3)
         )
 
         if not isinstance(data, pd.DataFrame):

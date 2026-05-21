@@ -29,13 +29,13 @@ def run_pipeline(config: DictConfig, pipeline_class=None):
 
 
 def validate_config(cfg: DictConfig) -> None:
-    if cfg.input.input_path is None:
-        raise ValueError("input.input_path is required")
+    if cfg.input.path is None:
+        raise ValueError("input.path is required")
 
-    if cfg.pipeline.pipeline_type not in SUPPORTED_PIPELINE_TYPES:
+    if cfg.pipeline.type not in SUPPORTED_PIPELINE_TYPES:
         supported_types = ", ".join(SUPPORTED_PIPELINE_TYPES.keys())
         raise ValueError(
-            f"Unsupported pipeline type: {cfg.pipeline.pipeline_type}. "
+            f"Unsupported pipeline type: {cfg.pipeline.type}. "
             f"Supported types are: {supported_types}"
         )
 
@@ -43,7 +43,7 @@ def validate_config(cfg: DictConfig) -> None:
 def main():
     cfg = ConfigLoader.load_from_cli()
     validate_config(cfg)
-    pipeline_class = SUPPORTED_PIPELINE_TYPES[cfg.pipeline.pipeline_type]
+    pipeline_class = SUPPORTED_PIPELINE_TYPES[cfg.pipeline.type]
     run_pipeline(cfg, pipeline_class)
 
 

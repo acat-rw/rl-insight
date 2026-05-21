@@ -23,7 +23,7 @@ from rl_insight.visualizer import RLTimelinePNGVisualizer
 def visualizer():
     """Initialize the visualizer instance for testing."""
     config = {
-        "output": {"output_path": "test_output"},
+        "output": {"path": "test_output"},
         "timeline": {"visualizer": {"width": 2000, "scale": 2}},
     }
     return RLTimelinePNGVisualizer(config)

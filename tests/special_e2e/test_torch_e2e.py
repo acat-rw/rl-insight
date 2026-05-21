@@ -31,10 +31,9 @@ def test_torch_e2e_with_input_path(monkeypatch, tmp_path):
 
     test_args = [
         "main.py",
-        f"input.input_path={input_dir}",
-        f"output.output_path={output_dir}",
-        "input.profiler_type=torch",
-        "input.input_type=multi_json_torch",
+        f"input.path={input_dir}",
+        f"output.path={output_dir}",
+        "timeline.parser.type=torch",
     ]
     monkeypatch.setattr(sys, "argv", test_args)
 

@@ -44,7 +44,7 @@ class GmmParser(BaseClusterParser):
                 if rank.strip().isdigit()
             ]
         )
-        step = get_config_value(params, "gmm.parser.step", None)
+        step = get_config_value(params, "heatmap.parser.step", None)
         if step is None:
             self._step_list: Optional[list[int]] = None
         elif isinstance(step, int):
@@ -60,7 +60,7 @@ class GmmParser(BaseClusterParser):
                     "Will process all steps."
                 )
                 self._step_list = None
-        self._role = get_config_value(params, "gmm.parser.role", None)
+        self._role = get_config_value(params, "heatmap.parser.role", None)
 
     @staticmethod
     def _normalize_path_text(path_value: str | Path) -> str:
